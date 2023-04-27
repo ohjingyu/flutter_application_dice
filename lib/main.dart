@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_dice/dice.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,18 +15,32 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Dice dice = Dice(size: 100);
   @override
   Widget build(BuildContext context) {
+    late Timer timer;
+    int resultNum = 0;
+
+    void start() {
+      timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        dice.shake();
+        print(dice.dice[0]);
+        setState(() {
+          resultNum = dice.dice[0];
+        });
+      });
+    }
+
     return MaterialApp(
       home: Scaffold(
           body: Column(
         children: [
-          const Flexible(
+          Flexible(
             flex: 1,
             child: Center(
               child: Text(
-                'Random Dice',
-                style: TextStyle(fontSize: 50),
+                '$resultNum',
+                style: const TextStyle(fontSize: 50),
               ),
             ),
           ),
@@ -31,7 +48,7 @@ class _MyAppState extends State<MyApp> {
             flex: 2,
             child: Center(
               child: Text(
-                '100',
+                '결과',
                 style: TextStyle(fontSize: 30),
               ),
             ),
@@ -43,7 +60,7 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   IconButton(
                       iconSize: 100,
-                      onPressed: () {},
+                      onPressed: start,
                       icon: const Icon(
                         Icons.play_circle_fill_rounded,
                       )),
