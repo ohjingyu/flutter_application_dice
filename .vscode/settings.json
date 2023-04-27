@@ -1,3 +1,11 @@
 {
-    
+    //트리모양 나오기
+    "dart.previewFlutterUiGuides": true,
+
+    // 저장시 자동 수정
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    // 들여쓰기 자동 적용하기
+    "editor.formatOnSave": true,
 }

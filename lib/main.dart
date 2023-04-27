@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
           body: Column(
         children: [
-          Flexible(
+          const Flexible(
             flex: 1,
             child: Center(
               child: Text(
@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
           ),
-          Flexible(
+          const Flexible(
             flex: 2,
             child: Center(
               child: Text(
@@ -44,13 +44,13 @@ class _MyAppState extends State<MyApp> {
                   IconButton(
                       iconSize: 100,
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.play_circle_fill_rounded,
                       )),
                   IconButton(
                       iconSize: 100,
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.check_box_rounded,
                       )),
                 ],
