@@ -3,10 +3,17 @@ class Dice {
   late var dice = [];
 
   Dice({required this.size}) {
+    init();
+  }
+
+  void init() {
+    // 다시 원래크기로 만들기
+    dice.clear();
     for (int i = 1; i <= size; i++) {
       dice.add(i);
     }
   }
+
   void shake() {
     dice.shuffle();
   }

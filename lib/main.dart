@@ -15,17 +15,50 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Dice dice = Dice(size: 100);
+  Dice dice = Dice(size: 45);
   late Timer timer;
-  int resultNum = 0;
+  dynamic resultNum = 0;
+  String resultView = '';
+  bool isStart = false;
 
   void start() {
-    timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      dice.shake();
-      print(dice.dice[0]);
-      setState(() {
-        resultNum = dice.dice[0];
+    if (!isStart && dice.dice.isNotEmpty) {
+      timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+        dice.shake();
+        setState(() {
+          resultNum = dice.dice[0];
+          isStart = true;
+        });
       });
+    }
+  }
+
+  void pickup() {
+    if (dice.dice.isNotEmpty && isStart) {
+      setState(() {
+        //resultView = resultView + ' ' + dice.pick().toString();
+        resultView = '$resultView ${dice.pick()}';
+      });
+      if (dice.dice.isEmpty) {
+        //클래스이름. 안에 변수 이름
+        timer.cancel();
+        setState(() {
+          isStart = false;
+          resultNum = '끝!';
+        });
+      }
+    }
+  }
+
+  void reset() {
+    setState(() {
+      resultNum = '';
+      resultView = '';
+      dice.init();
+      if (isStart) {
+        timer.cancel();
+      }
+      isStart = false;
     });
   }
 
@@ -44,12 +77,12 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
           ),
-          const Flexible(
+          Flexible(
             flex: 2,
             child: Center(
               child: Text(
-                '결과',
-                style: TextStyle(fontSize: 30),
+                resultView,
+                style: const TextStyle(fontSize: 30),
               ),
             ),
           ),
@@ -66,9 +99,15 @@ class _MyAppState extends State<MyApp> {
                       )),
                   IconButton(
                       iconSize: 100,
-                      onPressed: () {},
+                      onPressed: pickup,
                       icon: const Icon(
                         Icons.check_box_rounded,
+                      )),
+                  IconButton(
+                      iconSize: 100,
+                      onPressed: reset,
+                      icon: const Icon(
+                        Icons.settings_backup_restore_rounded,
                       )),
                 ],
               ))
